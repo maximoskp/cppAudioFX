@@ -5,13 +5,13 @@
 	<key>BuildMachineOSBuild</key>
 	<string>20G224</string>
 	<key>CFBundleDisplayName</key>
-	<string>Delay_0</string>
+	<string>cppAudioFX_test</string>
 	<key>CFBundleExecutable</key>
 	<string>Delay_0</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.Delay_0</string>
+	<string>com.yourcompany.cppAudioFX_test</string>
 	<key>CFBundleName</key>
-	<string>Delay_0</string>
+	<string>cppAudioFX_test</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

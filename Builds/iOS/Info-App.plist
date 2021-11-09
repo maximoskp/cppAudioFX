@@ -14,11 +14,11 @@
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
     <key>CFBundleIdentifier</key>
-    <string>com.yourcompany.Delay_0</string>
+    <string>com.yourcompany.cppAudioFX_test</string>
     <key>CFBundleName</key>
-    <string>Delay_0</string>
+    <string>cppAudioFX_test</string>
     <key>CFBundleDisplayName</key>
-    <string>Delay_0</string>
+    <string>cppAudioFX_test</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleSignature</key>

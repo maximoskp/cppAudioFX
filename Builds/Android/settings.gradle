@@ -1,2 +1,2 @@
-rootProject.name = 'Delay_0'
+rootProject.name = 'cppAudioFX_test'
 include ':app'

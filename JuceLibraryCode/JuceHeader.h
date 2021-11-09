@@ -39,7 +39,7 @@
 #if ! JUCE_DONT_DECLARE_PROJECTINFO
 namespace ProjectInfo
 {
-    const char* const  projectName    = "Delay_0";
+    const char* const  projectName    = "cppAudioFX_test";
     const char* const  companyName    = "";
     const char* const  versionString  = "1.0.0";
     const int          versionNumber  = 0x10000;

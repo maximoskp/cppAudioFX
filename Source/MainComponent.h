@@ -1,7 +1,8 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "DelayClass.h"
+#include "DelayClasses.h"
+#include "DistortionClasses.h"
 
 //==============================================================================
 /*
@@ -25,6 +26,7 @@ public:
     void resized() override;
     
     MonoDelay *delay;
+    ClippingDistortion *dist;
 
 private:
     //==============================================================================
@@ -41,17 +43,23 @@ private:
     float dry = 0.0;
     float wet = 0.5;
     
+    float dist_rate = 0.5;
+    
     // UI
     juce::Slider dry_slider;
     juce::Slider wet_slider;
     juce::Slider time_slider;
     juce::Slider feedback_slider;
     
+    juce::Slider dist_slider;
+    
     // functions
     void changeDry();
     void changeWet();
     void changeTime();
     void changeFeedback();
+    
+    void changeDistRate();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

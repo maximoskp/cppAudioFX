@@ -27,12 +27,12 @@ MainComponent::MainComponent()
     // initialise UI
     addAndMakeVisible(dry_slider);
     dry_slider.setRange(0., 1., 0.01);
-    dry_slider.setValue(0.0);
+    dry_slider.setValue(1.0);
     dry_slider.onValueChange = [this] { changeDry(); };
     
     addAndMakeVisible(wet_slider);
     wet_slider.setRange(0., 1., 0.01);
-    wet_slider.setValue(0.5);
+    wet_slider.setValue(1.0);
     wet_slider.onValueChange = [this] { changeWet(); };
     
     addAndMakeVisible(time_slider);
@@ -44,6 +44,11 @@ MainComponent::MainComponent()
     feedback_slider.setRange(0., 1., 0.01);
     feedback_slider.setValue(0.5);
     feedback_slider.onValueChange = [this] { changeFeedback(); };
+    
+    addAndMakeVisible(dist_slider);
+    dist_slider.setRange(0., 1., 0.01);
+    dist_slider.setValue(0.5);
+    dist_slider.onValueChange = [this] { changeDistRate(); };
 }
 
 MainComponent::~MainComponent()
@@ -64,6 +69,7 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
     // For more details, see the help for AudioProcessor::prepareToPlay()
     sample_rate = (float)sampleRate;
     delay = new MonoDelay(sample_rate);
+    dist = new ClippingDistortion(dist_rate);
 }
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
@@ -76,7 +82,8 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
     auto* leftWriteBuffer  = bufferToFill.buffer->getWritePointer (0, bufferToFill.startSample);
     auto* rightWriteBuffer = bufferToFill.buffer->getWritePointer (1, bufferToFill.startSample);
     for (auto i = 0; i < bufferToFill.numSamples; i++){
-        float tmp_delay = delay->process_sample(inReadBuffer[i]);
+        float dist_sample = dist->process_sample(inReadBuffer[i]);
+        float tmp_delay = delay->process_sample(dist_sample);
         leftWriteBuffer[i] = tmp_delay;
         rightWriteBuffer[i] = tmp_delay;
         // write to circular buffer
@@ -122,10 +129,11 @@ void MainComponent::resized()
     // If you add any child components, this is where you should
     // update their positions.
     
-    wet_slider.setBounds(getWidth()/4. + 10, 100, 3.*getWidth()/4. - 20, 30);
-    dry_slider.setBounds(getWidth()/4. + 10, 200, 3.*getWidth()/4. - 20, 30);
-    time_slider.setBounds(getWidth()/4. + 10, 300, 3.*getWidth()/4. - 20, 30);
-    feedback_slider.setBounds(getWidth()/4. + 10, 400, 3.*getWidth()/4. - 20, 30);
+    wet_slider.setBounds(getWidth()/5. + 10, 100, 3.*getWidth()/4. - 20, 30);
+    dry_slider.setBounds(getWidth()/5. + 10, 200, 3.*getWidth()/4. - 20, 30);
+    time_slider.setBounds(getWidth()/5. + 10, 300, 3.*getWidth()/4. - 20, 30);
+    feedback_slider.setBounds(getWidth()/5. + 10, 400, 3.*getWidth()/4. - 20, 30);
+    dist_slider.setBounds(getWidth()/5. + 10, 500, 3.*getWidth()/4. - 20, 30);
 }
 
 void MainComponent::changeDry(){
@@ -147,4 +155,10 @@ void MainComponent::changeFeedback(){
     feedback = feedback_slider.getValue();
     delay->setFeedback(feedback);
     DBG("feedback");
+}
+
+void MainComponent::changeDistRate(){
+    dist_rate = dist_slider.getValue();
+    dist->setDistortionRate(dist_rate);
+    DBG("distortion");
 }
