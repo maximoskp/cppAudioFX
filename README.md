@@ -11,8 +11,9 @@ A possible roadmap:
 6) Oscillator (as an LFO).
 7) Tremolo.
 8) Chorus.
-9) Octave down / up.
-10) High-pass filter.
-11) Band-pass filter.
-12) Wah.
-13) Harmonics synth.
+9) Ring modulator.
+10) Octave down / up.
+11) High-pass filter.
+12) Band-pass filter.
+13) Wah.
+14) Harmonics synth.
