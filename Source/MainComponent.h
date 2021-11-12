@@ -3,6 +3,7 @@
 #include <JuceHeader.h>
 #include "DelayClasses.h"
 #include "DistortionClasses.h"
+#include "FilterClasses.h"
 
 //==============================================================================
 /*
@@ -27,6 +28,7 @@ public:
     
     MonoDelay *delay;
     ClippingDistortion *dist;
+    LowPassFilter *lpf;
 
 private:
     //==============================================================================
@@ -45,6 +47,9 @@ private:
     
     float dist_rate = 0.5;
     
+    float lpf_freq = 500;
+    float lpf_q = 5.;
+    
     // UI
     juce::Slider dry_slider;
     juce::Slider wet_slider;
@@ -53,6 +58,9 @@ private:
     
     juce::Slider dist_slider;
     
+    juce::Slider lpf_freq_slider;
+    juce::Slider lpf_q_slider;
+    
     // functions
     void changeDry();
     void changeWet();
@@ -60,6 +68,9 @@ private:
     void changeFeedback();
     
     void changeDistRate();
+    
+    void changeLPFfreq();
+    void changeLPFq();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

@@ -28,27 +28,44 @@ MainComponent::MainComponent()
     addAndMakeVisible(dry_slider);
     dry_slider.setRange(0., 1., 0.01);
     dry_slider.setValue(1.0);
+    dry_slider.setTextValueSuffix(" dry");
     dry_slider.onValueChange = [this] { changeDry(); };
     
     addAndMakeVisible(wet_slider);
     wet_slider.setRange(0., 1., 0.01);
     wet_slider.setValue(1.0);
+    wet_slider.setTextValueSuffix(" wet");
     wet_slider.onValueChange = [this] { changeWet(); };
     
     addAndMakeVisible(time_slider);
     time_slider.setRange(0., 5., 0.01);
     time_slider.setValue(0.25);
+    time_slider.setTextValueSuffix(" secs");
     time_slider.onValueChange = [this] { changeTime(); };
     
     addAndMakeVisible(feedback_slider);
     feedback_slider.setRange(0., 1., 0.01);
     feedback_slider.setValue(0.5);
+    feedback_slider.setTextValueSuffix(" feed");
     feedback_slider.onValueChange = [this] { changeFeedback(); };
     
     addAndMakeVisible(dist_slider);
     dist_slider.setRange(0., 1., 0.01);
     dist_slider.setValue(0.5);
+    dist_slider.setTextValueSuffix(" dist");
     dist_slider.onValueChange = [this] { changeDistRate(); };
+    
+    addAndMakeVisible(lpf_freq_slider);
+    lpf_freq_slider.setRange(0., 1000., 1.);
+    lpf_freq_slider.setValue(500);
+    lpf_freq_slider.setTextValueSuffix(" Hz");
+    lpf_freq_slider.onValueChange = [this] { changeLPFfreq(); };
+    
+    addAndMakeVisible(lpf_q_slider);
+    lpf_q_slider.setRange(0.5, 10., 0.1);
+    lpf_q_slider.setValue(1);
+    lpf_q_slider.setTextValueSuffix(" Q");
+    lpf_q_slider.onValueChange = [this] { changeLPFq(); };
 }
 
 MainComponent::~MainComponent()
@@ -70,6 +87,7 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
     sample_rate = (float)sampleRate;
     delay = new MonoDelay(sample_rate);
     dist = new ClippingDistortion(dist_rate);
+    lpf = new LowPassFilter( sampleRate, 500., 1. );
 }
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
@@ -83,7 +101,8 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
     auto* rightWriteBuffer = bufferToFill.buffer->getWritePointer (1, bufferToFill.startSample);
     for (auto i = 0; i < bufferToFill.numSamples; i++){
         float dist_sample = dist->process_sample(inReadBuffer[i]);
-        float tmp_delay = delay->process_sample(dist_sample);
+        float lpf_sample = lpf->process_sample(dist_sample);
+        float tmp_delay = delay->process_sample(lpf_sample);
         leftWriteBuffer[i] = tmp_delay;
         rightWriteBuffer[i] = tmp_delay;
         // write to circular buffer
@@ -129,11 +148,15 @@ void MainComponent::resized()
     // If you add any child components, this is where you should
     // update their positions.
     
-    wet_slider.setBounds(getWidth()/5. + 10, 100, 3.*getWidth()/4. - 20, 30);
-    dry_slider.setBounds(getWidth()/5. + 10, 200, 3.*getWidth()/4. - 20, 30);
-    time_slider.setBounds(getWidth()/5. + 10, 300, 3.*getWidth()/4. - 20, 30);
-    feedback_slider.setBounds(getWidth()/5. + 10, 400, 3.*getWidth()/4. - 20, 30);
-    dist_slider.setBounds(getWidth()/5. + 10, 500, 3.*getWidth()/4. - 20, 30);
+    wet_slider.setBounds(getWidth()/5. + 10, 50, 3.*getWidth()/4. - 20, 30);
+    dry_slider.setBounds(getWidth()/5. + 10, 100, 3.*getWidth()/4. - 20, 30);
+    time_slider.setBounds(getWidth()/5. + 10, 150, 3.*getWidth()/4. - 20, 30);
+    feedback_slider.setBounds(getWidth()/5. + 10, 200, 3.*getWidth()/4. - 20, 30);
+    
+    dist_slider.setBounds(getWidth()/5. + 10, 300, 3.*getWidth()/4. - 20, 30);
+    
+    lpf_freq_slider.setBounds(getWidth()/5. + 10, 400, 3.*getWidth()/4. - 20, 30);
+    lpf_q_slider.setBounds(getWidth()/5. + 10, 450, 3.*getWidth()/4. - 20, 30);
 }
 
 void MainComponent::changeDry(){
@@ -161,4 +184,16 @@ void MainComponent::changeDistRate(){
     dist_rate = dist_slider.getValue();
     dist->setDistortionRate(dist_rate);
     DBG("distortion");
+}
+
+void MainComponent::changeLPFfreq(){
+    lpf_freq = lpf_freq_slider.getValue();
+    lpf->set_frequency(lpf_freq);
+    DBG("lpf frequency");
+}
+
+void MainComponent::changeLPFq(){
+    lpf_q = lpf_q_slider.getValue();
+    lpf->set_q(lpf_q);
+    DBG("lpf q");
 }

@@ -439,6 +439,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\FilterClasses.cpp">
+      <Filter>cppAudioFX_test\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\DistortionClasses.cpp">
       <Filter>cppAudioFX_test\Source</Filter>
     </ClCompile>
@@ -2538,6 +2541,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\FilterClasses.h">
+      <Filter>cppAudioFX_test\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\DistortionClasses.h">
       <Filter>cppAudioFX_test\Source</Filter>
     </ClInclude>
