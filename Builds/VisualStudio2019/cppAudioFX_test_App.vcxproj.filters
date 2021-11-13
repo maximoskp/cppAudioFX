@@ -439,6 +439,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\ReverbClasses.cpp">
+      <Filter>cppAudioFX_test\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\FilterClasses.cpp">
       <Filter>cppAudioFX_test\Source</Filter>
     </ClCompile>
@@ -2541,6 +2544,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\ReverbClasses.h">
+      <Filter>cppAudioFX_test\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\FilterClasses.h">
       <Filter>cppAudioFX_test\Source</Filter>
     </ClInclude>

@@ -34,6 +34,8 @@ add_library( ${BINARY_NAME}
 
     SHARED
 
+    "../../../Source/ReverbClasses.cpp"
+    "../../../Source/ReverbClasses.h"
     "../../../Source/FilterClasses.cpp"
     "../../../Source/FilterClasses.h"
     "../../../Source/DistortionClasses.cpp"
@@ -1545,6 +1547,7 @@ add_library( ${BINARY_NAME}
     "../../../JuceLibraryCode/JuceHeader.h"
 )
 
+set_source_files_properties("../../../Source/ReverbClasses.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties("../../../Source/FilterClasses.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties("../../../Source/DistortionClasses.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties("../../../Source/DelayClasses.h" PROPERTIES HEADER_FILE_ONLY TRUE)

@@ -139,6 +139,7 @@
     <Lib/>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\ReverbClasses.cpp"/>
     <ClCompile Include="..\..\Source\FilterClasses.cpp"/>
     <ClCompile Include="..\..\Source\DistortionClasses.cpp"/>
     <ClCompile Include="..\..\Source\DelayClasses.cpp"/>
@@ -2088,6 +2089,7 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_gui_extra.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\ReverbClasses.h"/>
     <ClInclude Include="..\..\Source\FilterClasses.h"/>
     <ClInclude Include="..\..\Source\DistortionClasses.h"/>
     <ClInclude Include="..\..\Source\DelayClasses.h"/>

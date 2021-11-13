@@ -28,6 +28,7 @@
 		91AF7609039678864CCEFDF0 /* DistortionClasses.cpp */ = {isa = PBXBuildFile; fileRef = 3AF116B2A7F3D6C486204013; };
 		961733D30096DB8D4D25FF1F /* MainComponent.cpp */ = {isa = PBXBuildFile; fileRef = FDA9960B78A4E36411ED5F5E; };
 		AC655D50D56D7CF465CF4663 /* CoreAudio.framework */ = {isa = PBXBuildFile; fileRef = 7A2C96B57D474B58AD556F66; };
+		AFDC0DC3DD9E112C4494CDE9 /* ReverbClasses.cpp */ = {isa = PBXBuildFile; fileRef = 3051C85EA4803DF3FD683F05; };
 		BFE0FEBD312B965F7CDF19D5 /* Main.cpp */ = {isa = PBXBuildFile; fileRef = CC0AA61FB79BE872ABBFF0B1; };
 		C31C62FA4E222A1A9735A2C0 /* AVFoundation.framework */ = {isa = PBXBuildFile; fileRef = 74C7D9E3692900691A295666; };
 		C86C62FD1791F9EBCD089F73 /* DelayClasses.cpp */ = {isa = PBXBuildFile; fileRef = 7DA3EBB0E8821A43DF22966A; };
@@ -55,6 +56,7 @@
 		2BBA9DB02ED8AD308559EB07 /* App */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Delay_0.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BD0423E6044D22BAE0D73C1 /* WebKit.framework */ /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		2CEB5CED2F1C9605DF531383 /* include_juce_gui_extra.mm */ /* include_juce_gui_extra.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_gui_extra.mm; path = ../../JuceLibraryCode/include_juce_gui_extra.mm; sourceTree = SOURCE_ROOT; };
+		3051C85EA4803DF3FD683F05 /* ReverbClasses.cpp */ /* ReverbClasses.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ReverbClasses.cpp; path = ../../Source/ReverbClasses.cpp; sourceTree = SOURCE_ROOT; };
 		36E770F1841646FA3A3B73B7 /* CoreImage.framework */ /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		3AF116B2A7F3D6C486204013 /* DistortionClasses.cpp */ /* DistortionClasses.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DistortionClasses.cpp; path = ../../Source/DistortionClasses.cpp; sourceTree = SOURCE_ROOT; };
 		3C1A9D448ACE2277BD3A8BF6 /* juce_audio_processors */ /* juce_audio_processors */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_audio_processors; path = "~/JUCE/modules/juce_audio_processors"; sourceTree = "<absolute>"; };
@@ -76,6 +78,7 @@
 		8544661B8C38ACCD19EA7796 /* include_juce_data_structures.mm */ /* include_juce_data_structures.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_data_structures.mm; path = ../../JuceLibraryCode/include_juce_data_structures.mm; sourceTree = SOURCE_ROOT; };
 		880F4B01CFD1110F0F337747 /* FilterClasses.cpp */ /* FilterClasses.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FilterClasses.cpp; path = ../../Source/FilterClasses.cpp; sourceTree = SOURCE_ROOT; };
 		98D6383DC1FF4C6F43574D51 /* include_juce_audio_basics.mm */ /* include_juce_audio_basics.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = include_juce_audio_basics.mm; path = ../../JuceLibraryCode/include_juce_audio_basics.mm; sourceTree = SOURCE_ROOT; };
+		9A6E8A4AD1E9E6128AD94A2C /* ReverbClasses.h */ /* ReverbClasses.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ReverbClasses.h; path = ../../Source/ReverbClasses.h; sourceTree = SOURCE_ROOT; };
 		9D9F972872816A4A4C196791 /* juce_data_structures */ /* juce_data_structures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_data_structures; path = "~/JUCE/modules/juce_data_structures"; sourceTree = "<absolute>"; };
 		A0D4C93B88885D13D7C1E0DC /* MainComponent.h */ /* MainComponent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MainComponent.h; path = ../../Source/MainComponent.h; sourceTree = SOURCE_ROOT; };
 		B5DDFD2E1DF9E8EAFA0F1D9E /* juce_core */ /* juce_core */ = {isa = PBXFileReference; lastKnownFileType = folder; name = juce_core; path = "~/JUCE/modules/juce_core"; sourceTree = "<absolute>"; };
@@ -199,6 +202,8 @@
 		C0A96AA0845F24C1D9437C21 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				3051C85EA4803DF3FD683F05,
+				9A6E8A4AD1E9E6128AD94A2C,
 				880F4B01CFD1110F0F337747,
 				4E9A1199E410AB89CFF273EE,
 				3AF116B2A7F3D6C486204013,
@@ -319,6 +324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFDC0DC3DD9E112C4494CDE9,
 				F36B120FB294732064D22D52,
 				91AF7609039678864CCEFDF0,
 				C86C62FD1791F9EBCD089F73,

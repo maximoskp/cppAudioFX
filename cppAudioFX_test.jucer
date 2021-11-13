@@ -4,6 +4,9 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="t0cBCo" name="cppAudioFX_test">
     <GROUP id="{D86A93FA-A2E6-A2DF-A2A7-35D59950F02D}" name="Source">
+      <FILE id="ZnmuZM" name="ReverbClasses.cpp" compile="1" resource="0"
+            file="Source/ReverbClasses.cpp"/>
+      <FILE id="Gqj5q2" name="ReverbClasses.h" compile="0" resource="0" file="Source/ReverbClasses.h"/>
       <FILE id="MjUi5a" name="FilterClasses.cpp" compile="1" resource="0"
             file="Source/FilterClasses.cpp"/>
       <FILE id="wFPIJf" name="FilterClasses.h" compile="0" resource="0" file="Source/FilterClasses.h"/>

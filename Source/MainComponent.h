@@ -3,7 +3,7 @@
 #include <JuceHeader.h>
 #include "DelayClasses.h"
 #include "DistortionClasses.h"
-#include "FilterClasses.h"
+#include "ReverbClasses.h"
 
 //==============================================================================
 /*
@@ -26,20 +26,20 @@ public:
     void paint (juce::Graphics& g) override;
     void resized() override;
     
-    MonoDelay *delay;
+    MonoLPFDelay *delay;
     ClippingDistortion *dist;
-    LowPassFilter *lpf;
+    D4Reverb *reverb;
 
 private:
     //==============================================================================
     // Your private member variables go here...
-//    int max_delay_samples = 5*44100;
-//    float circular_buffer[5*44100];
-//    int read_pointer = 0;
-//    int write_pointer = 0;
+    // UI configuration
+    float x_offset = 30.;
+    float x_size = 100.;
+    float y_offset = 30;
+    float y_step = 40.;
+    
     float delay_time = .25;
-//    int delay_samples_target = 2*44100;
-//    int delay_samples_current = 2*44100;
     int sample_rate = 0;
     float feedback = 0.5;
     float dry = 0.0;
@@ -66,11 +66,10 @@ private:
     void changeWet();
     void changeTime();
     void changeFeedback();
-    
-    void changeDistRate();
-    
     void changeLPFfreq();
     void changeLPFq();
+    
+    void changeDistRate();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };
