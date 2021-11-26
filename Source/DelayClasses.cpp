@@ -27,8 +27,76 @@ MonoDelay::MonoDelay(int sr)
         circular_buffer[i] = 0.;
     }
 }
+MonoDelay::MonoDelay(const MonoDelay &d){
+    max_delay_samples = d.get_max_delay_samples();
+    for(int i=0; i<max_delay_samples; i++){
+        circular_buffer[i] = 0.;
+    }
+    read_pointer = d.get_read_pointer();
+    write_pointer = d.get_write_pointer();
+    delay_time = d.get_delay_time();
+    delay_samples_target = d.get_delay_samples_target();
+    delay_samples_current = d.get_delay_samples_current();
+    delay_samples_current_int = d.get_delay_samples_current_int();
+    sample_rate = d.get_sample_rate();
+    feedback = d.get_feedback();
+    dry = d.get_dry();
+    wet = d.get_wet();
+}
 MonoDelay::~MonoDelay()
 {
+}
+
+int MonoDelay::get_max_delay_samples() const{
+    return max_delay_samples;
+}
+int MonoDelay::get_read_pointer() const{
+    return read_pointer;
+}
+int MonoDelay::get_write_pointer() const{
+    return write_pointer;
+}
+float MonoDelay::get_delay_time() const{
+    return delay_time;
+}
+int MonoDelay::get_delay_samples_target() const{
+    return delay_samples_target;
+}
+float MonoDelay::get_delay_samples_current() const{
+    return delay_samples_current;
+}
+int MonoDelay::get_delay_samples_current_int() const{
+    return delay_samples_current_int;
+}
+int MonoDelay::get_sample_rate() const{
+    return sample_rate;
+}
+float MonoDelay::get_feedback() const{
+    return feedback;
+}
+float MonoDelay::get_dry() const{
+    return dry;
+}
+float MonoDelay::get_wet() const{
+    return wet;
+}
+
+MonoDelay& MonoDelay::operator=(const MonoDelay* d){
+    max_delay_samples = d->get_max_delay_samples();
+    for(int i=0; i<max_delay_samples; i++){
+        circular_buffer[i] = 0.;
+    }
+    read_pointer = d->get_read_pointer();
+    write_pointer = d->get_write_pointer();
+    delay_time = d->get_delay_time();
+    delay_samples_target = d->get_delay_samples_target();
+    delay_samples_current = d->get_delay_samples_current();
+    delay_samples_current_int = d->get_delay_samples_current_int();
+    sample_rate = d->get_sample_rate();
+    feedback = d->get_feedback();
+    dry = d->get_dry();
+    wet = d->get_wet();
+    return *this;
 }
 
 float MonoDelay::process_sample(float s){

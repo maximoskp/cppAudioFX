@@ -33,7 +33,7 @@ MainComponent::MainComponent()
     
     addAndMakeVisible(wet_slider);
     wet_slider.setRange(0., 1., 0.01);
-    wet_slider.setValue(1.0);
+    wet_slider.setValue(0.0);
     wet_slider.setTextValueSuffix(" wet");
     wet_slider.onValueChange = [this] { changeWet(); };
     
@@ -88,7 +88,8 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
     sample_rate = (float)sampleRate;
     delay = new MonoLPFDelay(sample_rate);
     dist = new ClippingDistortion(dist_rate);
-    reverb = new D4Reverb(sample_rate);
+    // reverb = new D6Reverb(sample_rate);
+    diffuser = new Diffuser(sample_rate);
 }
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
@@ -100,11 +101,13 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
     auto* leftWriteBuffer  = bufferToFill.buffer->getWritePointer (0, bufferToFill.startSample);
     auto* rightWriteBuffer = bufferToFill.buffer->getWritePointer (1, bufferToFill.startSample);
     for (auto i = 0; i < bufferToFill.numSamples; i++){
-        float dist_sample = dist->process_sample(inReadBuffer[i]);
-        float tmp_delay = delay->process_sample(dist_sample);
-        float tmp_reverb = reverb->process_sample(tmp_delay);
-        leftWriteBuffer[i] = tmp_reverb;
-        rightWriteBuffer[i] = tmp_reverb;
+        float s = dist->process_sample(inReadBuffer[i]);
+        // s = delay->process_sample(s);
+        s = diffuser->process_sample(s);
+        leftWriteBuffer[i] = s;
+        rightWriteBuffer[i] = s;
+//        leftWriteBuffer[i] = inReadBuffer[i];
+//        rightWriteBuffer[i] = inReadBuffer[i];
     }
 }
 

@@ -10,25 +10,51 @@
 
 // https://github.com/sellicott/DSP-FFMpeg-Reverb
 
+// https://signalsmith-audio.co.uk/writing/2021/lets-write-a-reverb/
+
 #pragma once
 #include "DelayClasses.h"
+#include "FilterClasses.h"
+#include <iostream>
+// #include <vector>
 
-class D4Reverb
+using namespace std;
+
+class Diffuser
 {
 public:
-    D4Reverb();
-    D4Reverb(int sr);
-    ~D4Reverb();
+    Diffuser();
+    Diffuser(int sr);
+    // Diffuser(int num_channels); // complete when dynamic
+    ~Diffuser();
     
-    void set_room_size(float r);
-    void set_damping(float d);
-    
+    void set_delay_time_factor(float m, float v);
+    void set_delay_wet_factor(float m, float v);
+    void set_feedback_factor(float m, float v);
     float process_sample(float s);
-
+    
+    bool get_all_initialised();
+    
 private:
-    float sample_rate = 44100.;
-    float room_size = 1.;
-    float damping = 1.;
-    MonoLPFDelay *d1, *d2, *d3, *d4;
-    void configure_state();
+    // TODO: make all the following dynamic
+    int num_channels = 8;
+    // vector<MonoDelay *> delays;
+    // MonoDelay *delay;
+    MonoDelay delays[8];
+    float hadamard[8][8];
+    // delay time factor
+    float deltime_mean = 0.02;
+    float deltime_var = 0.01;
+    // delay wet factor
+    float delwet_mean = 0.5;
+    float delwet_var = 0.01;
+    // feedback factor
+    float delfeedback_mean = 0.5;
+    float delfeedback_var = 0.01;
+    
+    bool all_initialised = false;
+    
+    void makeHadamard();
+    void initialize_delays();
+    void initialize_delays(int sr);
 };

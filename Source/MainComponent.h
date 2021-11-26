@@ -28,7 +28,8 @@ public:
     
     MonoLPFDelay *delay;
     ClippingDistortion *dist;
-    D4Reverb *reverb;
+    // D6Reverb *reverb;
+    Diffuser *diffuser;
 
 private:
     //==============================================================================
