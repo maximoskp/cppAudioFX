@@ -23,6 +23,7 @@ public:
     void setDelayTime(float d);
     void setFeedback(float f);
     void setWetDry(float w, float d);
+    void set_dtime_change_speed(float s);
     // process audio
     float process_sample(float s);
     // getters
@@ -37,6 +38,7 @@ public:
     float get_feedback() const;
     float get_dry() const;
     float get_wet() const;
+    float get_dtime_change_speed() const;
     
     MonoDelay& operator=(const MonoDelay* d);
 private:
@@ -52,6 +54,7 @@ private:
     float feedback = 0.5;
     float dry = 0.0;
     float wet = 0.5;
+    float dtime_change_speed = 2.0;
 };
 
 // TODO: check if this could be done with inheritence from MonoDelay
@@ -66,6 +69,7 @@ public:
     void setDelayTime(float d);
     void setFeedback(float f);
     void setWetDry(float w, float d);
+    void set_dtime_change_speed(float s);
     void setLPFfrequency(float f);
     void setLPFq(float q_in);
     // process audio
@@ -83,6 +87,7 @@ private:
     float feedback = 0.5;
     float dry = 0.0;
     float wet = 0.5;
+    float dtime_change_speed = 2.0;
     LowPassFilter *lpf;
     float frequency = 500.;
     float q = 1.;

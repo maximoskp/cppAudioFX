@@ -43,8 +43,8 @@ private:
     MonoDelay delays[8];
     float hadamard[8][8];
     // delay time factor
-    float deltime_mean = 0.02;
-    float deltime_var = 0.01;
+    float deltime_mean = 0.002;
+    float deltime_var = 0.001;
     // delay wet factor
     float delwet_mean = 0.5;
     float delwet_var = 0.01;
@@ -52,9 +52,34 @@ private:
     float delfeedback_mean = 0.5;
     float delfeedback_var = 0.01;
     
+    float diffusor_dry = 0.5;
+    
     bool all_initialised = false;
     
     void makeHadamard();
+    void initialize_constants();
     void initialize_delays();
     void initialize_delays(int sr);
+};
+
+class Reverb8Diff
+{
+public:
+    Reverb8Diff();
+    Reverb8Diff(int sr);
+    ~Reverb8Diff();
+    
+    float process_sample(float s);
+private:
+    int sample_rate = 44100;
+    Diffuser *diffuser1;
+    Diffuser *diffuser2;
+    Diffuser *diffuser3;
+    Diffuser *diffuser4;
+    Diffuser *diffuser5;
+    
+    LowPassFilter *lop1;
+    LowPassFilter *lop2;
+    LowPassFilter *lop3;
+    LowPassFilter *lop4;
 };

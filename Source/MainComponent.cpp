@@ -88,8 +88,12 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
     sample_rate = (float)sampleRate;
     delay = new MonoLPFDelay(sample_rate);
     dist = new ClippingDistortion(dist_rate);
-    // reverb = new D6Reverb(sample_rate);
-    diffuser = new Diffuser(sample_rate);
+    reverb = new Reverb8Diff(sample_rate);
+//    diffuser1 = new Diffuser(sample_rate);
+//    diffuser2 = new Diffuser(sample_rate);
+//    diffuser3 = new Diffuser(sample_rate);
+//    diffuser4 = new Diffuser(sample_rate);
+//    diffuser5 = new Diffuser(sample_rate);
 }
 
 void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& bufferToFill)
@@ -102,8 +106,14 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
     auto* rightWriteBuffer = bufferToFill.buffer->getWritePointer (1, bufferToFill.startSample);
     for (auto i = 0; i < bufferToFill.numSamples; i++){
         float s = dist->process_sample(inReadBuffer[i]);
-        // s = delay->process_sample(s);
-        s = diffuser->process_sample(s);
+//        s = delay->process_sample(s);
+        s = reverb->process_sample(s);
+//        float s_diffuse = s;
+//        s_diffuse = diffuser1->process_sample(s_diffuse);
+//        s_diffuse = diffuser2->process_sample(s_diffuse);
+//        s_diffuse = diffuser3->process_sample(s_diffuse);
+//        s_diffuse = diffuser4->process_sample(s_diffuse);
+//        s_diffuse = diffuser5->process_sample(s_diffuse);
         leftWriteBuffer[i] = s;
         rightWriteBuffer[i] = s;
 //        leftWriteBuffer[i] = inReadBuffer[i];

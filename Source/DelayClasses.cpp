@@ -80,6 +80,9 @@ float MonoDelay::get_dry() const{
 float MonoDelay::get_wet() const{
     return wet;
 }
+float MonoDelay::get_dtime_change_speed() const{
+    return dtime_change_speed;
+}
 
 MonoDelay& MonoDelay::operator=(const MonoDelay* d){
     max_delay_samples = d->get_max_delay_samples();
@@ -102,9 +105,9 @@ MonoDelay& MonoDelay::operator=(const MonoDelay* d){
 float MonoDelay::process_sample(float s){
     // adjust delay time
     if(delay_samples_current < (float)delay_samples_target-1){
-        delay_samples_current = delay_samples_current + 0.5;
+        delay_samples_current = delay_samples_current + dtime_change_speed;
     }else if(delay_samples_current > (float)delay_samples_target+1){
-        delay_samples_current = delay_samples_current - 0.5;
+        delay_samples_current = delay_samples_current - dtime_change_speed;
     }
     delay_samples_current_int = (int)delay_samples_current;
     // write to circular buffer
@@ -128,6 +131,9 @@ void MonoDelay::setFeedback(float f){
 void MonoDelay::setWetDry(float w, float d){
     wet = w;
     dry = d;
+}
+void MonoDelay::set_dtime_change_speed(float s){
+    dtime_change_speed = s;
 }
 
 # pragma mark - MonoLPFDelay
@@ -158,9 +164,9 @@ MonoLPFDelay::~MonoLPFDelay()
 float MonoLPFDelay::process_sample(float s){
     // adjust delay time
     if(delay_samples_current < (float)delay_samples_target-1){
-        delay_samples_current = delay_samples_current + 0.5;
+        delay_samples_current = delay_samples_current + dtime_change_speed;
     }else if(delay_samples_current > (float)delay_samples_target+1){
-        delay_samples_current = delay_samples_current - 0.5;
+        delay_samples_current = delay_samples_current - dtime_change_speed;
     }
     delay_samples_current_int = (int)delay_samples_current;
     // write to circular buffer
@@ -192,4 +198,7 @@ void MonoLPFDelay::setLPFfrequency(float f){
 void MonoLPFDelay::setLPFq(float q_in){
     q = q_in;
     lpf->set_q(q);
+}
+void MonoLPFDelay::set_dtime_change_speed(float s){
+    dtime_change_speed = s;
 }
