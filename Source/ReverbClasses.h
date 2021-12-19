@@ -70,6 +70,11 @@ public:
     ~Reverb8Diff();
     
     float process_sample(float s);
+    
+    void set_room_size(float x);
+    void set_lpf(float x);
+    void set_wet(float x);
+    
 private:
     int sample_rate = 44100;
     Diffuser *diffuser1;
@@ -82,4 +87,6 @@ private:
     LowPassFilter *lop2;
     LowPassFilter *lop3;
     LowPassFilter *lop4;
+    
+    float wet;
 };

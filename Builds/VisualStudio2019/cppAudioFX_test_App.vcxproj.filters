@@ -439,6 +439,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Chorus.cpp">
+      <Filter>cppAudioFX_test\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SineGenerator.cpp">
+      <Filter>cppAudioFX_test\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\ReverbClasses.cpp">
       <Filter>cppAudioFX_test\Source</Filter>
     </ClCompile>
@@ -1696,6 +1702,9 @@
     <ClCompile Include="C:\JUCE\modules\juce_graphics\geometry\juce_PathStrokeType.cpp">
       <Filter>JUCE Modules\juce_graphics\geometry</Filter>
     </ClCompile>
+    <ClCompile Include="C:\JUCE\modules\juce_graphics\geometry\juce_Rectangle_test.cpp">
+      <Filter>JUCE Modules\juce_graphics\geometry</Filter>
+    </ClCompile>
     <ClCompile Include="C:\JUCE\modules\juce_graphics\image_formats\jpglib\jcapimin.c">
       <Filter>JUCE Modules\juce_graphics\image_formats\jpglib</Filter>
     </ClCompile>
@@ -2544,6 +2553,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Chorus.h">
+      <Filter>cppAudioFX_test\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SineGenerator.h">
+      <Filter>cppAudioFX_test\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\ReverbClasses.h">
       <Filter>cppAudioFX_test\Source</Filter>
     </ClInclude>
@@ -3522,6 +3537,9 @@
     <ClInclude Include="C:\JUCE\modules\juce_audio_processors\processors\juce_GenericAudioProcessorEditor.h">
       <Filter>JUCE Modules\juce_audio_processors\processors</Filter>
     </ClInclude>
+    <ClInclude Include="C:\JUCE\modules\juce_audio_processors\processors\juce_HostedAudioProcessorParameter.h">
+      <Filter>JUCE Modules\juce_audio_processors\processors</Filter>
+    </ClInclude>
     <ClInclude Include="C:\JUCE\modules\juce_audio_processors\processors\juce_PluginDescription.h">
       <Filter>JUCE Modules\juce_audio_processors\processors</Filter>
     </ClInclude>
@@ -3654,6 +3672,9 @@
     <ClInclude Include="C:\JUCE\modules\juce_core\containers\juce_ScopedValueSetter.h">
       <Filter>JUCE Modules\juce_core\containers</Filter>
     </ClInclude>
+    <ClInclude Include="C:\JUCE\modules\juce_core\containers\juce_SingleThreadedAbstractFifo.h">
+      <Filter>JUCE Modules\juce_core\containers</Filter>
+    </ClInclude>
     <ClInclude Include="C:\JUCE\modules\juce_core\containers\juce_SortedSet.h">
       <Filter>JUCE Modules\juce_core\containers</Filter>
     </ClInclude>
@@ -3757,6 +3778,9 @@
       <Filter>JUCE Modules\juce_core\memory</Filter>
     </ClInclude>
     <ClInclude Include="C:\JUCE\modules\juce_core\memory\juce_ReferenceCountedObject.h">
+      <Filter>JUCE Modules\juce_core\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\JUCE\modules\juce_core\memory\juce_Reservoir.h">
       <Filter>JUCE Modules\juce_core\memory</Filter>
     </ClInclude>
     <ClInclude Include="C:\JUCE\modules\juce_core\memory\juce_ScopedPointer.h">
@@ -4299,6 +4323,9 @@
     <ClInclude Include="C:\JUCE\modules\juce_graphics\images\juce_ImageFileFormat.h">
       <Filter>JUCE Modules\juce_graphics\images</Filter>
     </ClInclude>
+    <ClInclude Include="C:\JUCE\modules\juce_graphics\images\juce_ScaledImage.h">
+      <Filter>JUCE Modules\juce_graphics\images</Filter>
+    </ClInclude>
     <ClInclude Include="C:\JUCE\modules\juce_graphics\native\juce_mac_CoreGraphicsContext.h">
       <Filter>JUCE Modules\juce_graphics\native</Filter>
     </ClInclude>
@@ -4707,6 +4734,9 @@
     <ClInclude Include="C:\JUCE\modules\juce_gui_basics\native\juce_MultiTouchMapper.h">
       <Filter>JUCE Modules\juce_gui_basics\native</Filter>
     </ClInclude>
+    <ClInclude Include="C:\JUCE\modules\juce_gui_basics\native\juce_ScopedDPIAwarenessDisabler.h">
+      <Filter>JUCE Modules\juce_gui_basics\native</Filter>
+    </ClInclude>
     <ClInclude Include="C:\JUCE\modules\juce_gui_basics\native\juce_win32_ScopedThreadDPIAwarenessSetter.h">
       <Filter>JUCE Modules\juce_gui_basics\native</Filter>
     </ClInclude>
@@ -4867,9 +4897,6 @@
       <Filter>JUCE Modules\juce_gui_extra\embedding</Filter>
     </ClInclude>
     <ClInclude Include="C:\JUCE\modules\juce_gui_extra\embedding\juce_NSViewComponent.h">
-      <Filter>JUCE Modules\juce_gui_extra\embedding</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\JUCE\modules\juce_gui_extra\embedding\juce_ScopedDPIAwarenessDisabler.h">
       <Filter>JUCE Modules\juce_gui_extra\embedding</Filter>
     </ClInclude>
     <ClInclude Include="C:\JUCE\modules\juce_gui_extra\embedding\juce_UIViewComponent.h">

@@ -5,7 +5,7 @@ MainComponent::MainComponent()
 {
     // Make sure you set the size of the component after
     // you add any child components.
-    setSize (800, 600);
+    setSize (1200, 700);
 
     // Some platforms require permissions to open input channels so request that here
     if (juce::RuntimePermissions::isRequired (juce::RuntimePermissions::recordAudio)
@@ -24,7 +24,17 @@ MainComponent::MainComponent()
 //        circular_buffer[i] = 0.;
 //    }
     
+    juce::AudioDeviceManager::AudioDeviceSetup currentAudioSetup;
+    deviceManager.getAudioDeviceSetup (currentAudioSetup);
+    currentAudioSetup.bufferSize = 64;
+    deviceManager.setAudioDeviceSetup (currentAudioSetup, true);
+    
     // initialise UI
+    addAndMakeVisible(delay_label);
+    delay_label.setFont(juce::Font (14.0f, juce::Font::bold));
+    delay_label.setText("Delay", juce::dontSendNotification);
+    delay_label.setColour(juce::Label::textColourId, juce::Colour(255, 255, 255));
+    
     addAndMakeVisible(dry_slider);
     dry_slider.setRange(0., 1., 0.01);
     dry_slider.setValue(1.0);
@@ -61,11 +71,56 @@ MainComponent::MainComponent()
     lpf_q_slider.setTextValueSuffix(" Q");
     lpf_q_slider.onValueChange = [this] { changeLPFq(); };
     
+    addAndMakeVisible(dist_label);
+    dist_label.setFont(juce::Font (14.0f, juce::Font::bold));
+    dist_label.setText("Distortion", juce::dontSendNotification);
+    dist_label.setColour(juce::Label::textColourId, juce::Colour(255, 255, 255));
+    
     addAndMakeVisible(dist_slider);
     dist_slider.setRange(0., 1., 0.01);
     dist_slider.setValue(0.5);
     dist_slider.setTextValueSuffix(" dist");
     dist_slider.onValueChange = [this] { changeDistRate(); };
+    
+    addAndMakeVisible(chorus_label);
+    chorus_label.setFont(juce::Font (14.0f, juce::Font::bold));
+    chorus_label.setText("Chorus", juce::dontSendNotification);
+    chorus_label.setColour(juce::Label::textColourId, juce::Colour(255, 255, 255));
+    
+    addAndMakeVisible(depth_slider);
+    depth_slider.setRange(0., 1., 0.01);
+    depth_slider.setValue(0.03);
+    depth_slider.setTextValueSuffix(" depth");
+    depth_slider.onValueChange = [this] { changeDepth(); };
+    
+    addAndMakeVisible(speed_slider);
+    speed_slider.setRange(0., 10., 0.01);
+    speed_slider.setValue(3.0);
+    speed_slider.setTextValueSuffix(" speed");
+    speed_slider.onValueChange = [this] { changeSpeed(); };
+    
+    addAndMakeVisible(reverb_label);
+    reverb_label.setFont(juce::Font (14.0f, juce::Font::bold));
+    reverb_label.setText("Reverb", juce::dontSendNotification);
+    reverb_label.setColour(juce::Label::textColourId, juce::Colour(255, 255, 255));
+    
+    addAndMakeVisible(room_slider);
+    room_slider.setRange(0., 1., 0.01);
+    room_slider.setValue(0.03);
+    room_slider.setTextValueSuffix(" room");
+    room_slider.onValueChange = [this] { changeRoom(); };
+    
+    addAndMakeVisible(reverb_lpf_slider);
+    reverb_lpf_slider.setRange(0., 1., 0.01);
+    reverb_lpf_slider.setValue(3.0);
+    reverb_lpf_slider.setTextValueSuffix(" lpf");
+    reverb_lpf_slider.onValueChange = [this] { changeReverbLPF(); };
+    
+    addAndMakeVisible(reverb_wet_slider);
+    reverb_wet_slider.setRange(0., 1., 0.01);
+    reverb_wet_slider.setValue(0.3);
+    reverb_wet_slider.setTextValueSuffix(" wet");
+    reverb_wet_slider.onValueChange = [this] { changeReverbWet(); };
     
 }
 
@@ -89,6 +144,7 @@ void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRat
     delay = new MonoLPFDelay(sample_rate);
     dist = new ClippingDistortion(dist_rate);
     reverb = new Reverb8Diff(sample_rate);
+    chorus = new Chorus(sample_rate);
 //    diffuser1 = new Diffuser(sample_rate);
 //    diffuser2 = new Diffuser(sample_rate);
 //    diffuser3 = new Diffuser(sample_rate);
@@ -106,7 +162,8 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
     auto* rightWriteBuffer = bufferToFill.buffer->getWritePointer (1, bufferToFill.startSample);
     for (auto i = 0; i < bufferToFill.numSamples; i++){
         float s = dist->process_sample(inReadBuffer[i]);
-//        s = delay->process_sample(s);
+        s = chorus->process_sample(s);
+        s = delay->process_sample(s);
         s = reverb->process_sample(s);
 //        float s_diffuse = s;
 //        s_diffuse = diffuser1->process_sample(s_diffuse);
@@ -144,18 +201,30 @@ void MainComponent::resized()
     // If you add any child components, this is where you should
     // update their positions.
     
-    x_size = 3.*getWidth()/4. - 20;
-    x_offset = getWidth()/5. + 10;
+    x_size = getWidth()/2. - 20;
+    // x_offset = getWidth()/5. + 10;
+    x_offset = 10.;
     float tmp_y = y_offset;
     
-    dist_slider.setBounds(      x_offset, tmp_y,                x_size, 30);
+    dist_label.setBounds(      x_offset, tmp_y,                x_size, 30);
+    dist_slider.setBounds(     x_offset, tmp_y += y_step,      x_size, 30);
     
-    wet_slider.setBounds(       x_offset, tmp_y += 2.*y_step,   x_size, 30);
+    delay_label.setBounds(      x_offset, tmp_y += y_step,      x_size, 30);
+    wet_slider.setBounds(       x_offset, tmp_y += y_step,      x_size, 30);
     dry_slider.setBounds(       x_offset, tmp_y += y_step,      x_size, 30);
     time_slider.setBounds(      x_offset, tmp_y += y_step,      x_size, 30);
     feedback_slider.setBounds(  x_offset, tmp_y += y_step,      x_size, 30);
     lpf_freq_slider.setBounds(  x_offset, tmp_y += y_step,      x_size, 30);
     lpf_q_slider.setBounds(     x_offset, tmp_y += y_step,      x_size, 30);
+    
+    chorus_label.setBounds(      x_offset, tmp_y += y_step,      x_size, 30);
+    depth_slider.setBounds(      x_offset, tmp_y += y_step,      x_size, 30);
+    speed_slider.setBounds(      x_offset, tmp_y += y_step,      x_size, 30);
+    
+    reverb_label.setBounds(      x_offset, tmp_y += y_step,      x_size, 30);
+    room_slider.setBounds(       x_offset, tmp_y += y_step,      x_size, 30);
+    reverb_lpf_slider.setBounds( x_offset, tmp_y += y_step,      x_size, 30);
+    reverb_wet_slider.setBounds( x_offset, tmp_y += y_step,      x_size, 30);
     
 }
 
@@ -196,4 +265,29 @@ void MainComponent::changeLPFq(){
     lpf_q = lpf_q_slider.getValue();
     delay->setLPFq(lpf_q);
     DBG("lpf q");
+}
+
+void MainComponent::changeDepth(){
+    depth = depth_slider.getValue();
+    chorus->setDepth(depth);
+    DBG("depth");
+}
+void MainComponent::changeSpeed(){
+    speed = speed_slider.getValue();
+    chorus->setSpeed(speed);
+    DBG("speed");
+}
+
+void MainComponent::changeRoom(){
+    reverb->set_room_size(room_slider.getValue());
+    DBG("reverb room");
+}
+
+void MainComponent::changeReverbLPF(){
+    reverb->set_lpf(reverb_lpf_slider.getValue());
+    DBG("depth");
+}
+void MainComponent::changeReverbWet(){
+    reverb->set_wet(reverb_wet_slider.getValue());
+    DBG("speed");
 }

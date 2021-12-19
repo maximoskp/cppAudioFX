@@ -4,6 +4,8 @@
 #include "DelayClasses.h"
 #include "DistortionClasses.h"
 #include "ReverbClasses.h"
+#include "SineGenerator.h"
+#include "Chorus.h"
 
 //==============================================================================
 /*
@@ -29,11 +31,7 @@ public:
     MonoLPFDelay *delay;
     ClippingDistortion *dist;
     Reverb8Diff *reverb;
-//    Diffuser *diffuser1;
-//    Diffuser *diffuser2;
-//    Diffuser *diffuser3;
-//    Diffuser *diffuser4;
-//    Diffuser *diffuser5;
+    Chorus *chorus;
 
 private:
     //==============================================================================
@@ -41,7 +39,7 @@ private:
     // UI configuration
     float x_offset = 30.;
     float x_size = 100.;
-    float y_offset = 30;
+    float y_offset = 10;
     float y_step = 40.;
     
     float delay_time = .25;
@@ -55,16 +53,29 @@ private:
     float lpf_freq = 500;
     float lpf_q = 5.;
     
+    float depth = 50.;
+    float speed = 10.;
+    
     // UI
+    juce::Label delay_label;
     juce::Slider dry_slider;
     juce::Slider wet_slider;
     juce::Slider time_slider;
     juce::Slider feedback_slider;
-    
-    juce::Slider dist_slider;
-    
     juce::Slider lpf_freq_slider;
     juce::Slider lpf_q_slider;
+    
+    juce::Label dist_label;
+    juce::Slider dist_slider;
+    
+    juce::Label chorus_label;
+    juce::Slider depth_slider;
+    juce::Slider speed_slider;
+    
+    juce::Label reverb_label;
+    juce::Slider room_slider;
+    juce::Slider reverb_lpf_slider;
+    juce::Slider reverb_wet_slider;
     
     // functions
     void changeDry();
@@ -75,6 +86,13 @@ private:
     void changeLPFq();
     
     void changeDistRate();
+    
+    void changeDepth();
+    void changeSpeed();
+    
+    void changeRoom();
+    void changeReverbLPF();
+    void changeReverbWet();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

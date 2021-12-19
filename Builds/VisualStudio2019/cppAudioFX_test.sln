@@ -1,5 +1,6 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2019
+# Visual Studio Version 16
 
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cppAudioFX_test - App", "cppAudioFX_test_App.vcxproj", "{C75153F8-222C-2747-487E-72E7DF130D08}"
 EndProject

@@ -201,6 +201,8 @@ Reverb8Diff::Reverb8Diff(){
     diffuser5->set_feedback_factor(0.8, 0.05);
     
     lop1 = new LowPassFilter(sample_rate, 500., 0.5);
+    
+    wet = 1.;
 }
 Reverb8Diff::Reverb8Diff(int sr){
     sample_rate = sr;
@@ -228,6 +230,8 @@ Reverb8Diff::Reverb8Diff(int sr){
     lop2 = new LowPassFilter(sample_rate, 2800., 0.5);
     lop3 = new LowPassFilter(sample_rate, 2500., 0.5);
     lop4 = new LowPassFilter(sample_rate, 1000., 0.5);
+    
+    wet = 1.;
 }
 Reverb8Diff::~Reverb8Diff(){
     
@@ -248,11 +252,28 @@ float Reverb8Diff::process_sample(float s){
     s_diffuse = lop4->process_sample(s_diffuse);
     
     s_diffuse = diffuser5->process_sample(s_diffuse);
-    return s + s_diffuse;
+    return s + wet*s_diffuse;
 }
 
-//diffuser1 = new Diffuser(sample_rate);
-//diffuser2 = new Diffuser(sample_rate);
-//diffuser3 = new Diffuser(sample_rate);
-//diffuser4 = new Diffuser(sample_rate);
-//diffuser5 = new Diffuser(sample_rate);
+void Reverb8Diff::set_room_size(float x){
+    diffuser1->set_delay_time_factor( (1.+x)*0.007, 0.005);
+    diffuser1->set_feedback_factor( (0.6+x/2.)*0.3, 0.15);
+
+    diffuser2->set_delay_time_factor( (1.+x)*0.017, 0.015);
+    diffuser2->set_feedback_factor( (0.6+x/2.)*0.4, 0.15);
+
+    diffuser3->set_delay_time_factor( (1.+x)*0.035, 0.025);
+    diffuser3->set_feedback_factor( (0.6+x/2.)*0.5, 0.15);
+
+    diffuser4->set_delay_time_factor( (1.+x)*0.065, 0.035);
+    diffuser4->set_feedback_factor( (0.6+x/2.)*0.6, 0.15);
+    
+    diffuser5->set_delay_time_factor( (0.3+x)*0.565 , 0.135 );
+    diffuser5->set_feedback_factor( (0.5+x/2.)*0.9, 0.05);
+}
+void Reverb8Diff::set_lpf(float x){
+    
+}
+void Reverb8Diff::set_wet(float x){
+    wet = x;
+}
