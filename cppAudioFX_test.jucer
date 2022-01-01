@@ -4,6 +4,10 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
   <MAINGROUP id="t0cBCo" name="cppAudioFX_test">
     <GROUP id="{D86A93FA-A2E6-A2DF-A2A7-35D59950F02D}" name="Source">
+      <FILE id="fpr0eq" name="PitchShiftClasses.cpp" compile="1" resource="0"
+            file="Source/PitchShiftClasses.cpp"/>
+      <FILE id="bTmLiY" name="PitchShiftClasses.h" compile="0" resource="0"
+            file="Source/PitchShiftClasses.h"/>
       <FILE id="pfuylm" name="Chorus.cpp" compile="1" resource="0" file="Source/Chorus.cpp"/>
       <FILE id="llzRD2" name="Chorus.h" compile="0" resource="0" file="Source/Chorus.h"/>
       <FILE id="eGPDMU" name="SineGenerator.cpp" compile="1" resource="0"

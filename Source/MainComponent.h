@@ -6,6 +6,7 @@
 #include "ReverbClasses.h"
 #include "SineGenerator.h"
 #include "Chorus.h"
+//#include "PitchShiftClasses.h"
 
 //==============================================================================
 /*
@@ -32,6 +33,7 @@ public:
     ClippingDistortion *dist;
     Reverb8Diff *reverb;
     Chorus *chorus;
+//    OctaveDown *octDown;
 
 private:
     //==============================================================================
