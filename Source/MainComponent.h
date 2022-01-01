@@ -78,6 +78,7 @@ private:
     juce::Slider room_slider;
     juce::Slider reverb_lpf_slider;
     juce::Slider reverb_wet_slider;
+    juce::Slider reverb_dry_slider;
     
     // functions
     void changeDry();
@@ -95,6 +96,7 @@ private:
     void changeRoom();
     void changeReverbLPF();
     void changeReverbWet();
+    void changeReverbDry();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

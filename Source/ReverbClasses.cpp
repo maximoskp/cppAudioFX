@@ -252,7 +252,7 @@ float Reverb8Diff::process_sample(float s){
     s_diffuse = lop4->process_sample(s_diffuse);
     
     s_diffuse = diffuser5->process_sample(s_diffuse);
-    return s + wet*s_diffuse;
+    return dry*s + wet*s_diffuse;
 }
 
 void Reverb8Diff::set_room_size(float x){
@@ -276,4 +276,7 @@ void Reverb8Diff::set_lpf(float x){
 }
 void Reverb8Diff::set_wet(float x){
     wet = x;
+}
+void Reverb8Diff::set_dry(float x){
+    dry = x;
 }

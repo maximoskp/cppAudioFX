@@ -74,6 +74,7 @@ public:
     void set_room_size(float x);
     void set_lpf(float x);
     void set_wet(float x);
+    void set_dry(float x);
     
 private:
     int sample_rate = 44100;
@@ -89,4 +90,5 @@ private:
     LowPassFilter *lop4;
     
     float wet;
+    float dry;
 };

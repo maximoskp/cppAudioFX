@@ -122,6 +122,12 @@ MainComponent::MainComponent()
     reverb_wet_slider.setTextValueSuffix(" wet");
     reverb_wet_slider.onValueChange = [this] { changeReverbWet(); };
     
+    addAndMakeVisible(reverb_dry_slider);
+    reverb_dry_slider.setRange(0., 1., 0.01);
+    reverb_dry_slider.setValue(0.3);
+    reverb_dry_slider.setTextValueSuffix(" dry");
+    reverb_dry_slider.onValueChange = [this] { changeReverbDry(); };
+    
 }
 
 MainComponent::~MainComponent()
@@ -217,6 +223,7 @@ void MainComponent::resized()
     room_slider.setBounds(       x_offset, tmp_y += y_step,      x_size, 30);
     reverb_lpf_slider.setBounds( x_offset, tmp_y += y_step,      x_size, 30);
     reverb_wet_slider.setBounds( x_offset, tmp_y += y_step,      x_size, 30);
+    reverb_dry_slider.setBounds( x_offset, tmp_y += y_step,      x_size, 30);
     
 }
 
@@ -277,9 +284,13 @@ void MainComponent::changeRoom(){
 
 void MainComponent::changeReverbLPF(){
     reverb->set_lpf(reverb_lpf_slider.getValue());
-    DBG("depth");
+    DBG("rev lpf");
 }
 void MainComponent::changeReverbWet(){
     reverb->set_wet(reverb_wet_slider.getValue());
-    DBG("speed");
+    DBG("rev wet");
+}
+void MainComponent::changeReverbDry(){
+    reverb->set_dry(reverb_dry_slider.getValue());
+    DBG("rev dry");
 }
