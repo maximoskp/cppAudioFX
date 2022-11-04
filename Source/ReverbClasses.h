@@ -16,7 +16,9 @@
 #include "DelayClasses.h"
 #include "FilterClasses.h"
 #include <iostream>
-// #include <vector>
+#include <vector>
+#include <random>
+
 
 using namespace std;
 
@@ -78,16 +80,27 @@ public:
     
 private:
     int sample_rate = 44100;
-    Diffuser *diffuser1;
-    Diffuser *diffuser2;
-    Diffuser *diffuser3;
-    Diffuser *diffuser4;
-    Diffuser *diffuser5;
+    int num_of_diffusers = 5;
+    vector<Diffuser*> diffusers;
+    Diffuser *diffuser;
     
-    LowPassFilter *lop1;
-    LowPassFilter *lop2;
-    LowPassFilter *lop3;
-    LowPassFilter *lop4;
+    int num_of_lops = 4;
+    vector<LowPassFilter*> lops;
+    LowPassFilter *lop;
+    
+    double delay_mean_min = 0.007;
+    double delay_mean_max = 0.065;
+    double delay_var_min = 0.005;
+    double delay_var_max = 0.035;
+    double feedback_mean_min = 0.3;
+    double feedback_mean_max = 0.9;
+    double feedback_var = 0.15;
+    
+    double delay_mean_step;
+    double delay_var_step;
+    double feedback_mean_step;
+
+    random_device rd; // obtain a random number from hardware
     
     float wet;
     float dry;

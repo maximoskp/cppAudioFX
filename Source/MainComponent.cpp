@@ -164,10 +164,10 @@ void MainComponent::getNextAudioBlock (const juce::AudioSourceChannelInfo& buffe
     auto* rightWriteBuffer = bufferToFill.buffer->getWritePointer (1, bufferToFill.startSample);
     for (auto i = 0; i < bufferToFill.numSamples; i++){
         float s = inReadBuffer[i];
-        s = dist->process_sample(s);
+//        s = dist->process_sample(s);
 //        s = octDown->process_sample(s);
-        s = chorus->process_sample(s);
-        s = delay->process_sample(s);
+//        s = chorus->process_sample(s);
+//        s = delay->process_sample(s);
         s = reverb->process_sample(s);
         leftWriteBuffer[i] = s;
         rightWriteBuffer[i] = s;

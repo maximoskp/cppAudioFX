@@ -10,11 +10,11 @@
 #include "MainComponent.h"
 
 //==============================================================================
-class Delay_0Application  : public juce::JUCEApplication
+class AudioFXApplication  : public juce::JUCEApplication
 {
 public:
     //==============================================================================
-    Delay_0Application() {}
+    AudioFXApplication() {}
 
     const juce::String getApplicationName() override       { return ProjectInfo::projectName; }
     const juce::String getApplicationVersion() override    { return ProjectInfo::versionString; }
@@ -102,4 +102,4 @@ private:
 
 //==============================================================================
 // This macro generates the main() routine that launches the app.
-START_JUCE_APPLICATION (Delay_0Application)
+START_JUCE_APPLICATION (AudioFXApplication)

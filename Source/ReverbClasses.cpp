@@ -180,56 +180,112 @@ float Diffuser::process_sample(float s){
 
 Reverb8Diff::Reverb8Diff(){
     sample_rate = 44100;
-    diffuser1 = new Diffuser(sample_rate);
-    diffuser1->set_delay_time_factor(0.015, 0.005);
-    diffuser1->set_feedback_factor(0.8, 0.05);
+    delay_mean_step = (delay_mean_max - delay_mean_min) / num_of_diffusers;
+    delay_var_step = (delay_var_max - delay_var_min) / num_of_diffusers;
+    feedback_mean_step = (feedback_mean_max - feedback_mean_min) / num_of_diffusers;
+    std::cout << "delay_mean_step: " << delay_mean_step << "delay_var_step: " << delay_var_step << "feedback_mean_step: " << feedback_mean_step << "\n";
+
+
+    for (int i=0; i<num_of_diffusers; i++) {
+        diffuser = new Diffuser(sample_rate);
+        double delay_mean = delay_mean_min + i * delay_mean_step;
+        double delay_var = delay_var_min + i * delay_var_step;
+        double feedback_mean = feedback_mean_min + i * feedback_mean_step;
+
+        diffuser->set_delay_time_factor(delay_mean, delay_var);
+        diffuser->set_feedback_factor(feedback_mean, feedback_var);
+        diffusers.push_back(diffuser);
+    }
     
-    diffuser2 = new Diffuser(sample_rate);
-    diffuser2->set_delay_time_factor(0.025, 0.015);
-    diffuser2->set_feedback_factor(0.8, 0.05);
     
-    diffuser3 = new Diffuser(sample_rate);
-    diffuser3->set_delay_time_factor(0.065, 0.015);
-    diffuser3->set_feedback_factor(0.8, 0.05);
+    lops.push_back(new LowPassFilter(sample_rate, 700., 0.5));
+    lops.push_back(new LowPassFilter(sample_rate, 2800., 0.5));
+    lops.push_back(new LowPassFilter(sample_rate, 2500., 0.5));
+    lops.push_back(new LowPassFilter(sample_rate, 1000., 0.5));
     
-    diffuser4 = new Diffuser(sample_rate);
-    diffuser4->set_delay_time_factor(0.105, 0.025);
-    diffuser4->set_feedback_factor(0.8, 0.05);
+
     
-    diffuser5 = new Diffuser(sample_rate);
-    diffuser5->set_delay_time_factor(0.165, 0.035);
-    diffuser5->set_feedback_factor(0.8, 0.05);
     
-    lop1 = new LowPassFilter(sample_rate, 500., 0.5);
+    
+//    diffuser1 = new Diffuser(sample_rate);
+//    diffuser1->set_delay_time_factor(0.015, 0.005);
+//    diffuser1->set_feedback_factor(0.8, 0.05);
+//
+//    diffuser2 = new Diffuser(sample_rate);
+//    diffuser2->set_delay_time_factor(0.025, 0.015);
+//    diffuser2->set_feedback_factor(0.8, 0.05);
+//
+//    diffuser3 = new Diffuser(sample_rate);
+//    diffuser3->set_delay_time_factor(0.065, 0.015);
+//    diffuser3->set_feedback_factor(0.8, 0.05);
+//
+//    diffuser4 = new Diffuser(sample_rate);
+//    diffuser4->set_delay_time_factor(0.105, 0.025);
+//    diffuser4->set_feedback_factor(0.8, 0.05);
+//
+//    diffuser5 = new Diffuser(sample_rate);
+//    diffuser5->set_delay_time_factor(0.165, 0.035);
+//    diffuser5->set_feedback_factor(0.8, 0.05);
+//
+//    lop1 = new LowPassFilter(sample_rate, 500., 0.5);
     
     wet = 1.;
 }
 Reverb8Diff::Reverb8Diff(int sr){
+    
     sample_rate = sr;
-    diffuser1 = new Diffuser(sample_rate);
-    diffuser1->set_delay_time_factor(0.007, 0.005);
-    diffuser1->set_feedback_factor(0.3, 0.15);
+    delay_mean_step = (delay_mean_max - delay_mean_min) / num_of_diffusers;
+    delay_var_step = (delay_var_max - delay_var_min) / num_of_diffusers;
+    feedback_mean_step = (feedback_mean_max - feedback_mean_min) / num_of_diffusers;
+    std::mt19937 gen(rd()); // seed the generator
+    std::uniform_real_distribution<> distr(-0.002, 0.002); // define the range
+
+    for (int i=0; i<num_of_diffusers; i++) {
+        diffuser = new Diffuser(sample_rate);
+        double delay_mean = delay_mean_min + distr(gen) + i * delay_mean_step;
+        double delay_var = delay_var_min + distr(gen) + i * delay_var_step;
+        double feedback_mean = feedback_mean_min + distr(gen) + i * feedback_mean_step;
+        std::cout << "delay_mean: " << delay_mean << " delay_var: " << delay_var << " feedback_mean: " << feedback_mean << "\n";
+
+        diffuser->set_delay_time_factor(delay_mean, delay_var);
+        diffuser->set_feedback_factor(feedback_mean, feedback_var);
+        diffusers.push_back(diffuser);
+    }
+//    for (int i=0; i<num_of_diffusers; i++) {
+//        lop = new LowPassFilter(sample_rate, 700., 0.5);
+//        lops.push_back(lop);
+//    }
     
-    diffuser2 = new Diffuser(sample_rate);
-    diffuser2->set_delay_time_factor(0.017, 0.015);
-    diffuser2->set_feedback_factor(0.4, 0.15);
     
-    diffuser3 = new Diffuser(sample_rate);
-    diffuser3->set_delay_time_factor(0.035, 0.025);
-    diffuser3->set_feedback_factor(0.5, 0.15);
+//    diffuser1 = new Diffuser(sample_rate);
+//    diffuser1->set_delay_time_factor(0.007, 0.005);
+//    diffuser1->set_feedback_factor(0.3, 0.15);
+//
+//    diffuser2 = new Diffuser(sample_rate);
+//    diffuser2->set_delay_time_factor(0.017, 0.015);
+//    diffuser2->set_feedback_factor(0.4, 0.15);
+//
+//    diffuser3 = new Diffuser(sample_rate);
+//    diffuser3->set_delay_time_factor(0.035, 0.025);
+//    diffuser3->set_feedback_factor(0.5, 0.15);
+//
+//    diffuser4 = new Diffuser(sample_rate);
+//    diffuser4->set_delay_time_factor(0.065, 0.035);
+//    diffuser4->set_feedback_factor(0.6, 0.15);
+//
+//    diffuser5 = new Diffuser(sample_rate);
+//    diffuser5->set_delay_time_factor(0.565, 0.135);
+//    diffuser5->set_feedback_factor(0.85, 0.05);
     
-    diffuser4 = new Diffuser(sample_rate);
-    diffuser4->set_delay_time_factor(0.065, 0.035);
-    diffuser4->set_feedback_factor(0.6, 0.15);
-    
-    diffuser5 = new Diffuser(sample_rate);
-    diffuser5->set_delay_time_factor(0.565, 0.135);
-    diffuser5->set_feedback_factor(0.85, 0.05);
-    
-    lop1 = new LowPassFilter(sample_rate, 700., 0.5);
-    lop2 = new LowPassFilter(sample_rate, 2800., 0.5);
-    lop3 = new LowPassFilter(sample_rate, 2500., 0.5);
-    lop4 = new LowPassFilter(sample_rate, 1000., 0.5);
+//    lop1 = new LowPassFilter(sample_rate, 700., 0.5);
+//    lop2 = new LowPassFilter(sample_rate, 2800., 0.5);
+//    lop3 = new LowPassFilter(sample_rate, 2500., 0.5);
+//    lop4 = new LowPassFilter(sample_rate, 1000., 0.5);
+
+    lops.push_back(new LowPassFilter(sample_rate, 700., 0.5));
+    lops.push_back(new LowPassFilter(sample_rate, 2800., 0.5));
+    lops.push_back(new LowPassFilter(sample_rate, 2500., 0.5));
+    lops.push_back(new LowPassFilter(sample_rate, 1000., 0.5));
     
     wet = 1.;
 }
@@ -239,37 +295,59 @@ Reverb8Diff::~Reverb8Diff(){
 
 float Reverb8Diff::process_sample(float s){
     float s_diffuse = s;
-    s_diffuse = diffuser1->process_sample(s_diffuse);
-    s_diffuse = lop1->process_sample(s_diffuse);
-    
-    s_diffuse = diffuser2->process_sample(s_diffuse);
-    s_diffuse = lop2->process_sample(s_diffuse);
-    
-    s_diffuse = diffuser3->process_sample(s_diffuse);
-    s_diffuse = lop3->process_sample(s_diffuse);
-    
-    s_diffuse = diffuser4->process_sample(s_diffuse);
-    s_diffuse = lop4->process_sample(s_diffuse);
-    
-    s_diffuse = diffuser5->process_sample(s_diffuse);
+    for (int i=0; i<num_of_diffusers; i++) {
+        s_diffuse = diffusers[i]->process_sample(s_diffuse);
+        if(i < lops.size())
+            s_diffuse = lops[i]->process_sample(s_diffuse);
+    }
+//    s_diffuse = diffuser1->process_sample(s_diffuse);
+//    s_diffuse = lop1->process_sample(s_diffuse);
+//
+//    s_diffuse = diffuser2->process_sample(s_diffuse);
+//    s_diffuse = lop2->process_sample(s_diffuse);
+//
+//    s_diffuse = diffuser3->process_sample(s_diffuse);
+//    s_diffuse = lop3->process_sample(s_diffuse);
+//
+//    s_diffuse = diffuser4->process_sample(s_diffuse);
+//    s_diffuse = lop4->process_sample(s_diffuse);
+//
+//    s_diffuse = diffuser5->process_sample(s_diffuse);
     return dry*s + wet*s_diffuse;
 }
 
 void Reverb8Diff::set_room_size(float x){
-    diffuser1->set_delay_time_factor( (1.+x)*0.007, 0.005);
-    diffuser1->set_feedback_factor( (0.6+x/2.)*0.3, 0.15);
-
-    diffuser2->set_delay_time_factor( (1.+x)*0.017, 0.015);
-    diffuser2->set_feedback_factor( (0.6+x/2.)*0.4, 0.15);
-
-    diffuser3->set_delay_time_factor( (1.+x)*0.035, 0.025);
-    diffuser3->set_feedback_factor( (0.6+x/2.)*0.5, 0.15);
-
-    diffuser4->set_delay_time_factor( (1.+x)*0.065, 0.035);
-    diffuser4->set_feedback_factor( (0.6+x/2.)*0.6, 0.15);
     
-    diffuser5->set_delay_time_factor( (0.3+x)*0.565 , 0.135 );
-    diffuser5->set_feedback_factor( (0.5+x/2.)*0.9, 0.05);
+    std::mt19937 gen(rd()); // seed the generator
+    std::uniform_real_distribution<> distr(-0.002, 0.002); // define the range
+
+    for (int i=0; i<num_of_diffusers; i++) {
+        double delay_mean = delay_mean_min + i * delay_mean_step;
+        double delay_var = delay_var_min + i * delay_var_step;
+        double feedback_mean = feedback_mean_min + i * feedback_mean_step;
+        std::cout << "delay_mean: " << delay_mean << " delay_var: " << delay_var << " feedback_mean: " << feedback_mean << "\n";
+        diffusers[i]->set_delay_time_factor((1.+x) * delay_mean, delay_var);
+        diffusers[i]->set_feedback_factor((0.6+x/2.)* feedback_mean, feedback_var);
+        std::cout << "delay "<< (1.+x) * delay_mean << " " << delay_mean << "\n";
+        std::cout << "feedback "<< (0.6+x/2.)*feedback_mean << "\n";
+
+    }
+    
+    
+//    diffuser1->set_delay_time_factor( (1.+x)*0.007, 0.005);
+//    diffuser1->set_feedback_factor( (0.6+x/2.)*0.3, 0.15);
+//
+//    diffuser2->set_delay_time_factor( (1.+x)*0.017, 0.015);
+//    diffuser2->set_feedback_factor( (0.6+x/2.)*0.4, 0.15);
+//
+//    diffuser3->set_delay_time_factor( (1.+x)*0.035, 0.025);
+//    diffuser3->set_feedback_factor( (0.6+x/2.)*0.5, 0.15);
+//
+//    diffuser4->set_delay_time_factor( (1.+x)*0.065, 0.035);
+//    diffuser4->set_feedback_factor( (0.6+x/2.)*0.6, 0.15);
+//
+//    diffuser5->set_delay_time_factor( (0.3+x)*0.565 , 0.135 );
+//    diffuser5->set_feedback_factor( (0.5+x/2.)*0.9, 0.05);
 }
 void Reverb8Diff::set_lpf(float x){
     
